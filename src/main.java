@@ -57,28 +57,28 @@ public class main {
             switch (String.valueOf(line.charAt(arithmeticSignIndex))) {
                 case "+":
                     System.out.println(a + b);
-                    result += String.valueOf((a + b))+"\n";
+                    result += String.valueOf((a + b)) + "\n";
                     break;
                 case "-":
                     System.out.println(a - b);
-                    result += String.valueOf((a - b))+"\n";
+                    result += String.valueOf((a - b)) + "\n";
                     break;
 
                 case "*":
                     System.out.println(a * b);
-                    result += String.valueOf((a * b))+"\n";
+                    result += String.valueOf((a * b)) + "\n";
 
                     break;
 
                 case "/":
                     System.out.println(a / b);
-                    result += String.valueOf((a / b))+"\n";
+                    result += String.valueOf((a / b)) + "\n";
 
                     break;
 
             }
 
-                file.writeResult(result);
+            file.writeResult("output.txt", result);
         }
     }
 }

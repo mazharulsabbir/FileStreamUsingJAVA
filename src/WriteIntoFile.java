@@ -1,23 +1,22 @@
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 public class WriteIntoFile {
 
-    private String fileName;
+    private String inputFileName;
 
     public WriteIntoFile(String fileName) {
-        this.fileName = fileName;
+        this.inputFileName = fileName;
     }
 
-    public void writeResult(String files) {
+    public void writeResult(String outputFileName,String lines) {
         try {
-            FileWriter fileWriter = new FileWriter("output.txt");
+            FileWriter fileWriter = new FileWriter(outputFileName);
 
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
-            printWriter.println(files);
+            printWriter.println(lines);
 
             printWriter.close();
 
@@ -28,14 +27,14 @@ public class WriteIntoFile {
 
     public void write() {
         try {
-            FileWriter fileWriter = new FileWriter(fileName);
+            FileWriter fileWriter = new FileWriter(inputFileName);
 
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
-            printWriter.println("1984+2");
-            printWriter.println("1+578");
+            printWriter.println("193+2");
+            printWriter.println("1+58");
             printWriter.println("7+24");
-            printWriter.println("94+5");
+            printWriter.println("95+5");
             printWriter.close();
 
         } catch (IOException e) {
