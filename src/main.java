@@ -3,6 +3,8 @@ public class main {
     public static void main(String[] args) {
 
         String fileName = "input.txt";
+        String result = "";
+
         WriteIntoFile file = new WriteIntoFile(fileName);
         file.write();
 
@@ -55,20 +57,28 @@ public class main {
             switch (String.valueOf(line.charAt(arithmeticSignIndex))) {
                 case "+":
                     System.out.println(a + b);
+                    result += String.valueOf((a + b))+"\n";
                     break;
                 case "-":
                     System.out.println(a - b);
+                    result += String.valueOf((a - b))+"\n";
                     break;
 
                 case "*":
                     System.out.println(a * b);
+                    result += String.valueOf((a * b))+"\n";
+
                     break;
 
                 case "/":
                     System.out.println(a / b);
+                    result += String.valueOf((a / b))+"\n";
+
                     break;
 
             }
+
+                file.writeResult(result);
         }
     }
 }
