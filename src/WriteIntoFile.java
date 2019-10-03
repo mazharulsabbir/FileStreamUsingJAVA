@@ -16,7 +16,7 @@ public class WriteIntoFile {
 
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
-            printWriter.println(lines);
+            printWriter.print(lines);
 
             printWriter.close();
 
@@ -25,16 +25,13 @@ public class WriteIntoFile {
         }
     }
 
-    public void write() {
+    public void write(String line) {
         try {
             FileWriter fileWriter = new FileWriter(inputFileName);
 
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
-            printWriter.println("193+2");
-            printWriter.println("1+58");
-            printWriter.println("7+24");
-            printWriter.println("95+5");
+            printWriter.println(line);
             printWriter.close();
 
         } catch (IOException e) {
