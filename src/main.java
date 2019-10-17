@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class main {
     private static String inputFileName = "input.txt";
@@ -14,6 +16,11 @@ public class main {
 //        Task1();
 
 //        Task2();
+    }
+
+    private static void whiteSpaceRemoval(){
+        ReadFromFile readFromFile = new ReadFromFile(outputFileName);
+        readFromFile.getFileText();
     }
 
     private static void Task1() {
@@ -59,19 +66,16 @@ public class main {
 
         Lines text = output.get(0);
         int lengthOfLine = text.getLine().length();
+        String givenInput = text.getLine().replace("\\n", " ");
 
-        String givenInput = text.getLine();
-        String writeOutput = "";
-        for (int i = 0; i < lengthOfLine; i++) {
-            if (String.valueOf(givenInput.charAt(i)).equals(" ")) {
-                writeOutput += "\n";
-            }
-            writeOutput += String.valueOf(givenInput.charAt(i)).trim();
+        StringTokenizer stringTokenizer = new StringTokenizer(givenInput);
 
+        List<String> strings = new ArrayList<>();
+        while (stringTokenizer.hasMoreTokens()) {
+            System.out.println(stringTokenizer.nextToken());
+            strings.add(stringTokenizer.nextToken());
         }
-
-        System.out.println(writeOutput.trim());
-        writeIntoFile.writeResult(outputFileName, writeOutput.trim());
+        writeIntoFile.writeResult(outputFileName, strings);
     }
 
     private static void calculate() {

@@ -10,6 +10,7 @@ public class ReadFromFile {
     private String fileText = "";
 
     private List<Lines> lines;
+    private List<String> linesOfString;
 
     public ReadFromFile(String fileName) {
         this.fileName = fileName;
@@ -33,5 +34,25 @@ public class ReadFromFile {
         }
 
         return lines;
+    }
+
+    public List<String> getFileTextString() {
+        linesOfString = new ArrayList<>();
+        try {
+            FileReader fileReader = new FileReader(fileName);
+
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            while ((fileText = bufferedReader.readLine()) != null) {
+                linesOfString.add(fileText);
+            }
+
+            bufferedReader.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return linesOfString;
     }
 }
