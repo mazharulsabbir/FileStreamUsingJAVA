@@ -16,11 +16,23 @@ public class main {
 //        Task1();
 
 //        Task2();
+
+        whiteSpaceRemoval();
     }
 
-    private static void whiteSpaceRemoval(){
+    private static void whiteSpaceRemoval() {
         ReadFromFile readFromFile = new ReadFromFile(outputFileName);
-        readFromFile.getFileText();
+
+        List<String> list = readFromFile.getFileTextString();
+
+        String output = "";
+        for (int i = 0; i < list.size(); i++) {
+            output += list.get(i);
+        }
+
+        output = output.replaceAll("( )+", " ");
+
+        System.out.println(output);
     }
 
     private static void Task1() {
