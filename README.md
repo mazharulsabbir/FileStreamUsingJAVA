@@ -4,6 +4,6 @@
 2. Read from file
 
 
-String Concatenation
-String Tokenization
-Calculation from file
+3. String Concatenation
+4. String Tokenization
+5. Calculation from file
