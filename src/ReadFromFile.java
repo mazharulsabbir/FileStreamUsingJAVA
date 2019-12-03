@@ -9,31 +9,10 @@ public class ReadFromFile {
     private String fileName;
     private String fileText = "";
 
-    private List<Lines> lines;
     private List<String> linesOfString;
 
     public ReadFromFile(String fileName) {
         this.fileName = fileName;
-    }
-
-    public List<Lines> getFileText() {
-        lines = new ArrayList<>();
-        try {
-            FileReader fileReader = new FileReader(fileName);
-
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            while ((fileText = bufferedReader.readLine()) != null) {
-                lines.add(new Lines(fileText));
-            }
-
-            bufferedReader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return lines;
     }
 
     public List<String> getFileTextString() {

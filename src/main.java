@@ -1,42 +1,132 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class main {
-    private static String inputFileName = "input.txt";
-    private static String outputFileName = "output.txt";
+    private static final String INPUT_FILE_NAME = "input.txt";
+    private static final String OUTPUT_FILE_NAME = "output.txt";
 
     private static Scanner scanner;
 
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
+
 //        calculate();
 
-//        Task1();
+//        stringConcatenation();
 
-//        Task2();
+//        stringTokenizer();
 
-        whiteSpaceRemoval();
+//        whiteSpaceRemoval();
+
+        commentRemoval();
+    }
+
+    private static void commentRemoval() {
+        ReadFromFile readFromFile = new ReadFromFile(INPUT_FILE_NAME);
+        List<String> lines = readFromFile.getFileTextString();
+
+        boolean multiLine = false;
+        char current = 0;
+        boolean isNeededToAddLastChar = false;
+
+        for (String s : lines) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            int i;
+            for (i = 0; i < s.length() - 1; i++) {
+                char prev = s.charAt(i);
+                current = s.charAt(i + 1);
+
+                String s2 = String.valueOf(prev) + current;
+
+                isNeededToAddLastChar = false;
+
+                if (s.contains("/*") && !s.contains("*/")) {
+                    isNeededToAddLastChar = true;
+                    multiLine = true;
+                }
+
+                if (multiLine) {
+                    if (s.contains("*/")) {
+                        isNeededToAddLastChar = true;
+
+                        for (int j = 0; j < s.length(); j++) {
+
+                            char x1 = s.charAt(j);
+                            char x2 = s.charAt(j + 1);
+
+                            String x = String.valueOf(x1) + x2;
+
+                            if (x.equals("*/")) {
+                                i++;
+                                multiLine = false;
+                                break;
+                            }
+                        }
+                    } else isNeededToAddLastChar = false;
+
+                }
+
+                if (!multiLine) {
+                    if (s2.equals("//") || s2.equals("/*")) {
+                        if (s2.equals("//"))
+                            i = s.length();
+                        else {
+                            int j;
+                            for (j = i; j < s.length(); j++) {
+                                char x1 = s.charAt(j - 1);
+                                char x2 = s.charAt(j);
+
+                                String x = String.valueOf(x1) + x2;
+
+                                if (x.contains("*/")) {
+                                    isNeededToAddLastChar = true;
+
+                                    if (x.equals("*/")) {
+                                        i = j;
+                                        break;
+                                    } else {
+                                        j++;
+                                    }
+                                } else {
+                                    isNeededToAddLastChar = false;
+                                    i = s.length();
+                                }
+                            }
+                        }
+                    } else {
+                        if (isNeededToAddLastChar) {
+                            stringBuilder.append(prev).append(current);
+                        } else
+                            stringBuilder.append(prev);
+                    }
+                }
+            }
+
+            System.out.println(stringBuilder.toString());
+        }
     }
 
     private static void whiteSpaceRemoval() {
-        ReadFromFile readFromFile = new ReadFromFile(outputFileName);
+        ReadFromFile readFromFile = new ReadFromFile(INPUT_FILE_NAME);
 
         List<String> list = readFromFile.getFileTextString();
 
-        String output = "";
-        for (int i = 0; i < list.size(); i++) {
-            output += list.get(i);
+        StringBuilder output = new StringBuilder();
+        for (String s : list) {
+            output.append(s).append(" ");
         }
 
-        output = output.replaceAll("( )+", " ");
+        String result = output.toString().replaceAll("( )+", " ");
+        System.out.println(result);
 
-        System.out.println(output);
+        WriteIntoFile writeIntoFile = new WriteIntoFile(OUTPUT_FILE_NAME);
+        writeIntoFile.write(result);
     }
 
-    private static void Task1() {
-        WriteIntoFile writeIntoFile = new WriteIntoFile(inputFileName);
+    private static void stringConcatenation() {
+        WriteIntoFile writeIntoFile = new WriteIntoFile(INPUT_FILE_NAME);
 
         System.out.print("How much lines do you want to add? ");
         int totalInputLines = scanner.nextInt();
@@ -48,24 +138,23 @@ public class main {
         }
         writeIntoFile.write(lines.trim());
 
-        ReadFromFile readFromFile = new ReadFromFile(inputFileName);
-        List<Lines> output = readFromFile.getFileText();
+        ReadFromFile readFromFile = new ReadFromFile(INPUT_FILE_NAME);
+        List<String> output = readFromFile.getFileTextString();
 
         int length = output.size();
 
         String writeOutput = "";
         for (int i = 0; i < length; i++) {
-            Lines lines1 = output.get(i);
-            writeOutput += lines1.getLine() + " ";
+            writeOutput += output.get(i) + " ";
         }
 
         System.out.println(writeOutput.trim());
-        writeIntoFile.writeResult(outputFileName, writeOutput.trim());
+        writeIntoFile.writeResult(OUTPUT_FILE_NAME, writeOutput.trim());
 
     }
 
-    private static void Task2() {
-        WriteIntoFile writeIntoFile = new WriteIntoFile(inputFileName);
+    private static void stringTokenizer() {
+        WriteIntoFile writeIntoFile = new WriteIntoFile(INPUT_FILE_NAME);
 
         System.out.print("Write a line: ");
 
@@ -73,21 +162,20 @@ public class main {
 
         writeIntoFile.write(lines.trim());
 
-        ReadFromFile readFromFile = new ReadFromFile(inputFileName);
-        List<Lines> output = readFromFile.getFileText();
+        ReadFromFile readFromFile = new ReadFromFile(INPUT_FILE_NAME);
+        List<String> output = readFromFile.getFileTextString();
 
-        Lines text = output.get(0);
-        int lengthOfLine = text.getLine().length();
-        String givenInput = text.getLine().replace("\\n", " ");
+        String givenInput = output.get(0).replace("\\n", " ");
 
         StringTokenizer stringTokenizer = new StringTokenizer(givenInput);
 
-        List<String> strings = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
         while (stringTokenizer.hasMoreTokens()) {
-            System.out.println(stringTokenizer.nextToken());
-            strings.add(stringTokenizer.nextToken());
+            builder.append(stringTokenizer.nextToken()).append("\n");
         }
-        writeIntoFile.writeResult(outputFileName, strings);
+
+        System.out.println(builder.toString());
+        writeIntoFile.writeResult(OUTPUT_FILE_NAME, builder.toString());
     }
 
     private static void calculate() {
@@ -95,7 +183,7 @@ public class main {
 
         String result = "";
 
-        WriteIntoFile file = new WriteIntoFile(inputFileName);
+        WriteIntoFile file = new WriteIntoFile(INPUT_FILE_NAME);
         int n = 0;
         System.out.println("How much line you want to add? ");
         n = scanner.nextInt();
@@ -105,14 +193,14 @@ public class main {
         }
         file.write(writeLine);
 
-        ReadFromFile readFromFile = new ReadFromFile(inputFileName);
-        readFromFile.getFileText();
-        int size = readFromFile.getFileText().size();
+        ReadFromFile readFromFile = new ReadFromFile(INPUT_FILE_NAME);
+        readFromFile.getFileTextString();
+        int size = readFromFile.getFileTextString().size();
         System.out.println("__________________________");
 
         for (int i = 0; i < size; i++) {
-            Lines lines = readFromFile.getFileText().get(i);
-            String line = lines.getLine();
+            String line = readFromFile.getFileTextString().get(i);
+//            String line = lines.getLine();
 
             if (!line.equals("")) {
 
@@ -177,7 +265,7 @@ public class main {
 
                 }
 
-                file.writeResult(outputFileName, result);
+                file.writeResult(OUTPUT_FILE_NAME, result);
             }
 
         }

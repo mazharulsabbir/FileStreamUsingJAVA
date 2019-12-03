@@ -1,1 +1,10 @@
-there is something to tokenize
+hello world//this is a comment
+jsdfhj/*comment*/kjh
+
+/*this is
+multi
+line comment
+*/ ushdfiuweiru
+
+hello world //this is a comment
+jsdfhj/*comment*/kjh
