@@ -27,45 +27,31 @@ public class main {
         List<String> lines = readFromFile.getFileTextString();
 
         boolean multiLine = false;
-        char current = 0;
-        boolean isNeededToAddLastChar = false;
-
-        for (String s : lines) {
+        char lastChar;
+        for (String line : lines) {
             StringBuilder stringBuilder = new StringBuilder();
-
+            lastChar = ' ';
+            String s = line;
             int i;
             for (i = 0; i < s.length() - 1; i++) {
                 char prev = s.charAt(i);
-                current = s.charAt(i + 1);
+                char current = s.charAt(i + 1);
 
                 String s2 = String.valueOf(prev) + current;
 
-                isNeededToAddLastChar = false;
-
                 if (s.contains("/*") && !s.contains("*/")) {
-                    isNeededToAddLastChar = true;
                     multiLine = true;
                 }
 
                 if (multiLine) {
-                    if (s.contains("*/")) {
-                        isNeededToAddLastChar = true;
-
-                        for (int j = 0; j < s.length(); j++) {
-
-                            char x1 = s.charAt(j);
-                            char x2 = s.charAt(j + 1);
-
-                            String x = String.valueOf(x1) + x2;
-
-                            if (x.equals("*/")) {
-                                i++;
-                                multiLine = false;
-                                break;
-                            }
-                        }
-                    } else isNeededToAddLastChar = false;
-
+                    if (s.contains("/*") && s.contains("*/")) {
+                        multiLine = false;
+                    } else if (s.contains("*/")) {
+                        s = s.replaceAll("\\*/", "");
+                        stringBuilder.append(s.trim());
+                        multiLine = false;
+                        break;
+                    }
                 }
 
                 if (!multiLine) {
@@ -81,8 +67,6 @@ public class main {
                                 String x = String.valueOf(x1) + x2;
 
                                 if (x.contains("*/")) {
-                                    isNeededToAddLastChar = true;
-
                                     if (x.equals("*/")) {
                                         i = j;
                                         break;
@@ -90,19 +74,18 @@ public class main {
                                         j++;
                                     }
                                 } else {
-                                    isNeededToAddLastChar = false;
                                     i = s.length();
                                 }
+
+                                lastChar = s.charAt(s.length() - 1);
                             }
                         }
                     } else {
-                        if (isNeededToAddLastChar) {
-                            stringBuilder.append(prev).append(current);
-                        } else
-                            stringBuilder.append(prev);
+                        stringBuilder.append(prev);
                     }
                 }
             }
+            stringBuilder.append(lastChar);
 
             System.out.println(stringBuilder.toString());
         }
