@@ -11,7 +11,7 @@ public class main {
     public static void main(String[] args) {
         scanner = new Scanner(System.in);
 
-//        calculate();
+//        calculateFromFile();
 
 //        stringConcatenation();
 
@@ -26,6 +26,7 @@ public class main {
         ReadFromFile readFromFile = new ReadFromFile(INPUT_FILE_NAME);
         List<String> lines = readFromFile.getFileTextString();
 
+        StringBuilder output = new StringBuilder();
         boolean multiLine = false;
         char lastChar;
         for (String line : lines) {
@@ -86,9 +87,13 @@ public class main {
                 }
             }
             stringBuilder.append(lastChar);
-
-            System.out.println(stringBuilder.toString());
+            output.append(stringBuilder.toString()).append("\n");
         }
+
+        System.out.println(output.toString());
+
+        WriteIntoFile write = new WriteIntoFile(OUTPUT_FILE_NAME);
+        write.write(output.toString());
     }
 
     private static void whiteSpaceRemoval() {
@@ -161,7 +166,7 @@ public class main {
         writeIntoFile.writeResult(OUTPUT_FILE_NAME, builder.toString());
     }
 
-    private static void calculate() {
+    private static void calculateFromFile() {
         Scanner scanner = new Scanner(System.in);
 
         String result = "";
